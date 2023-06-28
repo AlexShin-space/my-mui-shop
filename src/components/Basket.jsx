@@ -71,7 +71,7 @@ export const Basket = (props) => {
                                     {order.reduce((acc, item) => {
                                         return acc + item.price * item.quantity;
                                     }, 0)}{' '}
-                                    грн.
+                                    ₴
                                 </Typography>
                             </ListItem>
                             <ListItem>

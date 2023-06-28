@@ -3,8 +3,51 @@ import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } f
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const getText = (navigate, name, id, firstPrice, currentPrice) => {
+    if (firstPrice) {
+        return (
+            <>
+                <Typography
+                    variant="body1"
+                    component="h2"
+                    onClick={() => { navigate("/" + id); window.scrollTo(0, 0) }}
+                    sx={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}
+                    noWrap
+                >
+                    {name}
+                </Typography>
+                <Typography variant="body1" component="s" //caption
+                    //fontWeight={"bold"}
+                    sx={{
+                        textDecorationColor: 'red',
+                        //paddingTop: 0,
+                        //paddingBottom: '0rem',
+                    }}> {firstPrice} ₴</Typography>
+
+                <Typography variant="h6"
+                    fontWeight={"bold"}
+                > {currentPrice} ₴</Typography>
+            </>
+        )
+    } else {
+        return (
+            <>
+                <Typography
+                    variant="body1"
+                    component="h2"
+                    onClick={() => { navigate("/" + id); window.scrollTo(0, 0) }}
+                    sx={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}
+                >
+                    {name}
+                </Typography>
+                <Typography variant="h6" fontWeight={"bold"}> {currentPrice} ₴</Typography>
+            </>
+        )
+    }
+}
+
 const GoodsItem = (props) => {
-    const { id, name, price, color, size, photos, setWishList, wishList } = props;
+    const { id, name, firstPrice, currentPrice, color, size, photos, setWishList, wishList } = props;
     const navigate = useNavigate();
     const [wishBotColor, setWishBotColor] = useState();
 
@@ -28,8 +71,10 @@ const GoodsItem = (props) => {
                     alt={name}
                     title={name}
                     sx={{ height: 650, cursor: 'pointer' }} />
-                <CardContent>
-                    <Typography
+                <CardContent
+                    sx={{ paddingBottom: 0 }}
+                >
+                    {/* <Typography
                         variant="body1"
                         component="h2"
                         onClick={() => { navigate("/" + id); window.scrollTo(0, 0) }}
@@ -37,10 +82,16 @@ const GoodsItem = (props) => {
                         noWrap
                     >
                         {name}
-                    </Typography>
-                    <Typography variant="body1" fontWeight={"bold"}> {price} грн.</Typography>
+                    </Typography> */}
+                    {/* <Typography variant="caption" component="s" 
+                    fontWeight={"bold"} 
+                    sx={{textDecorationColor: 'red'}}> {changedPrice} грн.</Typography>
+                    <Typography variant="body1"
+                    fontWeight={"bold"}
+                    > {firstPrice} грн.</Typography> */}
+                    {getText(navigate, name, id, firstPrice, currentPrice)}
                 </CardContent>
-                <CardActions >
+                <CardActions>
                     <Button sx={{
                         backgroundColor: "magenta",
                         ":hover": { backgroundColor: 'magenta' },
@@ -54,7 +105,7 @@ const GoodsItem = (props) => {
                         //onClick={() => navigate("/" + id)}
                         href={"/" + id}
                     >
-                        Переглянути
+                        Купити
                     </Button>
                     <Button sx={{
                         backgroundColor: wishBotColor,
@@ -67,7 +118,7 @@ const GoodsItem = (props) => {
                                 poster: props.photos[0],
                                 id: props.id,
                                 name: props.name,
-                                price: props.price,
+                                price: props.currentPrice,
                             })
                         }}
                     >

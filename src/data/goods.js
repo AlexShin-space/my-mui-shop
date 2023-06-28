@@ -14,7 +14,8 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 750,
+        firstPrice: 750,
+        currentPrice: 500,
     },
     {
         description: 'description',
@@ -31,7 +32,7 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 1450,
+        currentPrice: 1450,
     },
     {
         id: 'js03',
@@ -45,7 +46,7 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 950,
+        currentPrice: 950,
     },
     {
         id: 'data01',
@@ -59,7 +60,7 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 850,
+        currentPrice: 850,
     },
     {
         id: 'js04',
@@ -73,7 +74,7 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 550,
+        currentPrice: 550,
     },
     {
         id: 'video01',
@@ -87,7 +88,7 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 1250,
+        currentPrice: 1250,
     },
     {
         id: 'video02',
@@ -101,7 +102,7 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 1550,
+        currentPrice: 1550,
     },
     {
         id: 'video03',
@@ -115,7 +116,7 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 2250,
+        currentPrice: 2250,
     },
     {
         id: 'video04',
@@ -129,7 +130,7 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 1450,
+        currentPrice: 1450,
     },
     {
         id: 'sticker01',
@@ -143,7 +144,7 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 550,
+        currentPrice: 550,
     },
     {
         id: 'sticker02',
@@ -157,7 +158,7 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 550,
+        currentPrice: 550,
     },
     {
         id: 'sticker03',
@@ -171,6 +172,6 @@ export const goods = [
             "https://images.unsplash.com/photo-1559583985-c80d8ad9b29f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXwxMDY1OTc2fHxlbnwwfHx8fA%3D%3D&w=1000&q=80",
             "https://media.istockphoto.com/id/1257005098/photo/hd-wallpaper-for-mobile-phones.jpg?b=1&s=170667a&w=0&k=20&c=Hl1nOy1NbJbEvGQsoAW4zDtMmNg9yPL7H7a1mdftly8="
         ],
-        price: 1550,
+        currentPrice: 1550,
     },
 ];

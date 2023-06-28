@@ -41,7 +41,7 @@ const BasketItem = ({ addToOrder, deleteFromOrder, poster, removeFromOrder, id, 
 
                 <Grid item xs={1.5}>
                     <Typography variant="body1" fontWeight={"bold"}>
-                        {price} грн.
+                        {price} ₴
                     </Typography>
                 </Grid>
 

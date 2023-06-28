@@ -145,7 +145,7 @@ const App = () => {
         );
 
         if (indexInwishList > -1) {
-            //setSnackOpen('Вже в обраному)');
+            setSnackOpen('Видалено з обраного');
             removeFromWishList(goodsItem.id)
         } else {
             setWishList([
@@ -158,7 +158,7 @@ const App = () => {
                 },
             ],
             );
-            //setSnackOpen('Додано в обране');
+            setSnackOpen('Додано в обране');
         }
     };
 

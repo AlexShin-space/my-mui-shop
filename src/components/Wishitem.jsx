@@ -30,7 +30,7 @@ const WhishItem = ({ poster, removeFromWishList, id, name, price }) => {
 
                 <Grid item xs={2.5}>
                     <Typography variant="body1" fontWeight={"bold"}>
-                        {price} грн.
+                        {price} ₴
                     </Typography>
                 </Grid>
 

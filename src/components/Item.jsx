@@ -164,7 +164,7 @@ const Item = (props) => {
 
             {/* <h3 style={{ marginBottom: '20px', marginTop: 'auto' }}>{item.price} грн</h3> */}
             <Typography component="p" variant="h6" sx={{ fontWeight: 700, marginBottom: '0.5rem', }}>
-                {item.price} грн
+                {item.currentPrice} грн
             </Typography>
 
             <ToggleButtonGroup
@@ -239,7 +239,7 @@ const Item = (props) => {
                         poster: item.photos[0],
                         id: item.id,
                         name: item.name,
-                        price: item.price,
+                        price: item.currentPrice,
                         color: alignmentColor,
                         size: alignmentSize
                     })}
@@ -257,7 +257,7 @@ const Item = (props) => {
                         poster: item.photos[0],
                         id: item.id,
                         name: item.name,
-                        price: item.price,
+                        price: item.currentPrice,
                     })}
                 >
                     <FavoriteBorderRoundedIcon />
