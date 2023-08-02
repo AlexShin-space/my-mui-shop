@@ -1,11 +1,12 @@
 import CloseIcon from '@mui/icons-material/Close';
 import LocalMallRoundedIcon from '@mui/icons-material/LocalMallRounded';
-import { Button, Container, Divider, IconButton, List, ListItem, ListItemIcon, ListItemText, Modal, Typography } from '@mui/material';
-import React from 'react';
+import { Button, Container, Divider, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Modal, TextField, Typography } from '@mui/material';
+import React, { useState } from 'react';
 import BasketItem from './BasketItem';
 
 export const Basket = (props) => {
     const {
+        darkTheme,
         addToOrder,
         deleteFromOrder,
         cartOpen,
@@ -13,7 +14,7 @@ export const Basket = (props) => {
         order = [],
         removeFromOrder
     } = props;
-    //const navigate = useNavigate();
+    const [promokode, setPromokode] = useState('');
 
     return (
         <Modal
@@ -22,6 +23,7 @@ export const Basket = (props) => {
             onClose={closeCart}
             sx={{
                 //maxHeight: '50%',
+
                 display: 'flex',
                 justifyContent: 'center',
                 //margin: '250px 0'
@@ -31,16 +33,18 @@ export const Basket = (props) => {
 
         >
             <Container sx={{
+                //backgroundColor: 'black',
                 //height: 'auto',
                 maxHeight: '80%',
                 //minWidth: '25%',
-                width: 'auto',
+                width: 'auto', backdropFilter: 'blur(12px)',
                 //overflow: 'auto',
                 justifyContent: 'center',
                 position: 'absolute',
                 display: 'flex',
-                backgroundColor: 'white',
-                borderRadius: '1.2rem'
+                backgroundColor: darkTheme ? 'rgba(1, 1, 1, 0.2)' : 'white',
+                borderRadius: '1.2rem',
+                border: '2px solid darkmagenta',
 
             }}>
                 <List>
@@ -55,25 +59,46 @@ export const Basket = (props) => {
                     </ListItem>
                     <Divider />
                     {!order.length ? (
-                        <ListItem>Тут порожньо :(</ListItem>
+                        <ListItem sx={{ justifyContent: 'center', }}>
+                            Тут порожньо :(
+                        </ListItem>
                     ) : (
-                        <>  <List sx={{overflow: 'auto',maxHeight: '75%',}}>
-                                {order.map((item) => (
-                                    <BasketItem key={item.name + item.color + item.size} addToOrder={addToOrder} deleteFromOrder={deleteFromOrder} removeFromOrder={removeFromOrder} {...item} />
-                                ))}
-                            </List>
+                        <>  <List sx={{ overflow: 'auto', maxHeight: '75%', }}>
+                            {order.map((item) => (
+                                <BasketItem key={item.name + item.color + item.size} addToOrder={addToOrder} deleteFromOrder={deleteFromOrder} removeFromOrder={removeFromOrder} {...item} />
+                            ))}
+                        </List>
 
-                            <Divider sx={{ backgroundColor: 'purple' }} />
-                            <Divider sx={{ backgroundColor: 'purple' }} />
-                            <ListItem>
-                                <Typography sx={{ fontWeight: 700 }}>
-                                    Загальна вартість:{' '}
-                                    {order.reduce((acc, item) => {
-                                        return acc + item.price * item.quantity;
-                                    }, 0)}{' '}
-                                    ₴
-                                </Typography>
-                            </ListItem>
+                            <Divider sx={{ backgroundColor: 'purple', border: '3px' }} />
+                            
+                                <Grid container spacing={10} sx={{
+                                    alignItems: 'center',
+                                }}>
+                                    <Grid item xs={8}>
+                                        <Typography sx={{ fontWeight: 700 }}>
+                                            Загальна вартість:{' '}
+                                            {order.reduce((acc, item) => {
+                                                return acc + item.price * item.quantity;
+                                            }, 0)}{' '}
+                                            ₴
+                                        </Typography>
+                                    </Grid>
+                                    <Grid item xs={4}>
+                                        <TextField
+                                            //sx={{ width: '100%' }}
+                                            variant="standard"
+                                            size="small"
+                                            sx={{ marginRight: 0, }}
+                                            id="outlined-number"
+                                            label="Промокод"
+                                            type="text"
+                                            value={promokode} onChange={e => setPromokode(e.target.value)}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                    
+                                    
+                            
                             <ListItem>
                                 <Button sx={{
                                     width: '70%', margin: '0 auto', display: 'flex', background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',

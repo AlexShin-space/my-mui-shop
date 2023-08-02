@@ -11,10 +11,11 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/scrollbar';
 
-
+import { goods } from '../data/goods';
+import GoodsItem from './GoodsItem';
 
 const Item = (props) => {
-    const { item, setOrder, setWishList, wishList } = props;
+    const { darkTheme, item, setOrder, setWishList, wishList } = props;
 
     const [isphotoOpen, setphotoOpen] = useState(false);
     const [CurrentPhoto, setCurrentPhoto] = useState("");
@@ -26,11 +27,47 @@ const Item = (props) => {
         setphotoOpen(true);
     };
 
+    const similarGoods = () => {
+        let arr = goods.filter((good) => good.category.includes(item.category));
+        let currentProductIndex = arr.indexOf(item) + 1
+        arr = arr.slice(currentProductIndex, currentProductIndex + 3)
+        if (arr.length) {
+            // if (arr.length > 3) {
+            //     let max = arr.length
+            //     let min = 0
+            //     let randomPosition = Math.floor(Math.random() * (max - min))
+            //     arr = arr.slice(randomPosition, currentProductIndex+3)
+            //     console.log(randomPosition)
+            // }
+            return (
+                <><Typography component="h2" variant="h5" sx={{
+                    marginBottom: '0.7rem',
+                    marginTop: '5rem',
+                    fontWeight: 420,
+                }}>
+                    Схожий товар:
+                </Typography>
+                    <Grid container
+                        spacing={8}
+                        //columnSpacing={{ xs: 1, sm: 2, md: 45 }}
+                        columns={{ xs: 4, sm: 8, md: 18 }}
+                    >
+                        {arr.map((similarItem) => {
+                            return (
+                                <GoodsItem key={similarItem.id} id={similarItem.id} setWishList={setWishList}
+                                    wishList={wishList} {...similarItem} />
+                            )
+                        })}
+                    </Grid></>
+            )
+        }
+    }
+
     const [wishBotColor, setWishBotColor] = useState();
     useEffect(() => {
         setWishBotColor((wishList.filter((wishItem) =>
-        item.id === wishItem.id && item.color === wishItem.color && item.size === wishItem.size).length !== 0)
-        ? 'blue' : 'green')
+            item.id === wishItem.id && item.color === wishItem.color && item.size === wishItem.size).length !== 0)
+            ? 'blue' : 'green')
     }, [wishList, item.id, item.color, item.size]);
 
     //useEffect() ???
@@ -88,6 +125,7 @@ const Item = (props) => {
         setAlignmentSize(newAlignment);
     };
     const handleAlignmentColor = (event, newAlignment) => {
+        console.log(alignmentColor);
         if (!newAlignment) {
             return;
         }
@@ -101,7 +139,7 @@ const Item = (props) => {
             <Helmet>
                 <title>
                     {item.name + " - висока якість і низькі ціни на " + UAvalue + " з доставкою в Київ та " +
-                    "по Україні в інтернет магазині Wear and Enjoy it"}
+                        "по Україні в інтернет магазині Wear and Enjoy it"}
                 </title>
                 <meta name="description" content={
                     "Закінчується! Гарантія повернення, накладений платіж, " +
@@ -136,7 +174,7 @@ const Item = (props) => {
                     clickable: true,
                 }}
                 modules={[EffectCoverflow, Navigation]} // Pagination,
-                //spaceBetween={'40'}
+            //spaceBetween={'40'}
             >
 
                 {item.photos.map((photo, i) => (
@@ -157,14 +195,29 @@ const Item = (props) => {
             {/* <h2 style={{ marginBottom: '10px' }}>{item.name}</h2> */}
             <Typography component="h1" variant="h5" sx={{
                 marginBottom: '0.1rem',
-                fontWeight: 600,
+                fontWeight: 380,
             }}>
                 {item.name}
             </Typography>
 
             {/* <h3 style={{ marginBottom: '20px', marginTop: 'auto' }}>{item.price} грн</h3> */}
-            <Typography component="p" variant="h6" sx={{ fontWeight: 700, marginBottom: '0.5rem', }}>
-                {item.currentPrice} грн
+
+            {item.firstPrice ? (
+                <Typography variant="h6" component="s" //caption
+                    //fontWeight={"bold"}
+                    sx={{
+                        textDecorationColor: 'red',
+                        //paddingTop: 0,
+                        //paddingBottom: '0rem',
+                    }}> {item.firstPrice} ₴
+                </Typography>
+            ) : null}
+
+            <Typography component="p" variant="h5" sx={{
+                fontWeight: 700,
+                marginBottom: '0.5rem',
+            }} fontWeight={"bold"}>
+                {item.currentPrice} ₴
             </Typography>
 
             <ToggleButtonGroup
@@ -196,8 +249,6 @@ const Item = (props) => {
                     exclusive
                     onChange={handleAlignmentColor}
                     sx={{
-
-                        backgroundColor: '#ede7cd',
                         //border: '0.2rem solid red',
                         width: 'auto',
                         height: 'auto',
@@ -206,7 +257,10 @@ const Item = (props) => {
                     {item.colors.map((color) => (
                         <ToggleButton key={color} value={color} sx={{
                             width: 'auto', height: 'auto',
-                            backgroundColor: 'white', //border: '0.2rem solid white', //#FFF3E0
+                            "&.Mui-selected, &.Mui-selected:hover": {
+                                backgroundColor: darkTheme ? '#1f2d20' : '#bcf5bc',
+                            }
+                            //backgroundColor: darkTheme ? '#121212' : 'white', //border: '0.2rem solid white', //#FFF3E0
                             //borderRadius: '20px'
                         }}>
                             <Box sx={{
@@ -278,26 +332,27 @@ const Item = (props) => {
                 <Typography component="p" variant="h6" sx={{ marginTop: '1.5rem' }}>
                     {item.description}
                 </Typography>
+                {similarGoods()}
             </Box>
 
             <Modal
-
                 open={isphotoOpen}
                 onClose={() => setphotoOpen(false)}
                 onClick={() => setphotoOpen(false)}
-                sx={{ 
-                    overflow: 'auto', 
-                    }}
+                sx={{
+                    overflow: 'auto',
+                }}
             >
                 <Box sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    left: '50%',
+                    //position: 'absolute',
+                    //top: '50%',
+                    //transform: 'translate(-50%, -50%)',
+                    //left: '50%',
                     display: 'flex',
-                    alignItems: 'center',
+                    //alignItems: 'center',
+                    justifyContent: 'center'
                 }}>
-                    <img src={CurrentPhoto} alt={item.description.slice(0, 200)} style={{minHeight: '100vh'}}/>
+                    <img src={CurrentPhoto} alt={item.description.slice(0, 200)} style={{ minHeight: '100vh' }} />
                 </Box>
             </Modal>
 

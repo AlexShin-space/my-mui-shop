@@ -6,7 +6,7 @@ import WishItem from './Wishitem';
 
 export const Wishlist = (props) => {
     const {
-        wishOpen,
+        darkTheme, wishOpen,
         closeWish = Function.prototype,
         wishList = [],
         removeFromWishList
@@ -36,8 +36,10 @@ export const Wishlist = (props) => {
                 justifyContent: 'center',
                 position: 'absolute',
                 display: 'flex',
-                backgroundColor: 'white',
-                borderRadius: '1.2rem'
+                backdropFilter: 'blur(12px)',
+                backgroundColor: darkTheme ? 'rgba(1, 1, 1, 0.2)' : 'white',
+                borderRadius: '1.2rem',
+                border: '2px solid darkmagenta', //rgba(0, 0, 255, 0.8)
 
             }}>
                 <List>
@@ -52,7 +54,9 @@ export const Wishlist = (props) => {
                     </ListItem>
                     <Divider />
                     {!wishList.length ? (
-                        <ListItem>Тут порожньо</ListItem>
+                        <ListItem sx={{ justifyContent: 'center', }}>
+                            Тут порожньо
+                        </ListItem>
                     ) : (
                         <>
                             <List sx={{ overflow: 'auto', maxHeight: '85%' }}>

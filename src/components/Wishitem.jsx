@@ -18,7 +18,7 @@ const WhishItem = ({ poster, removeFromWishList, id, name, price }) => {
                         sx={{ height: 120, width: 80 }} />
                 </Grid>
 
-                <Grid item xs={7} style={{ paddingLeft: '43px' }}>
+                <Grid item xs={7.4} style={{ paddingLeft: '43px' }}>
                     <Typography variant="caption text" component="a" href={'/' + id}
                         sx={{
                             color: 'inherit',
@@ -28,7 +28,7 @@ const WhishItem = ({ poster, removeFromWishList, id, name, price }) => {
                     </Typography>
                 </Grid>
 
-                <Grid item xs={2.5}>
+                <Grid item xs={1.9}>
                     <Typography variant="body1" fontWeight={"bold"}>
                         {price} ₴
                     </Typography>

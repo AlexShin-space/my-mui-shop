@@ -120,7 +120,8 @@ const MyOrder = (props) => {
                     //padding: '0 30px',
                     boxShadow: '0 3px 3px 3px rgba(255, 105, 135, .3)',
                     //top: '50px',
-                    marginTop: '10px'
+                    marginTop: 3,
+                    marginBottom: 3,
                 }}
                     variant="contained"
                     onClick={TakeOrder}

@@ -2,7 +2,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, CssBaseline, ThemeProvider, Typography, createTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -37,9 +37,18 @@ const App = () => {
         }
         return Allquantities;
     }
+    const getTheme = () => {
+        let darkTheme = localStorage.getItem("DarkTheme");
+        if (darkTheme === null) {
+            return false;
+        } else {
+            return JSON.parse(darkTheme);
+        }
+    }
     //SEO
     //const [currentTitle, setCurrentTitle] = useState("Yees")
 
+    const [darkTheme, setCurrentTheme] = useState(getTheme());
     const [order, setOrder] = useState(getLocalCartData("Cart")); //[]
     const [search, setSearch] = useState('');
     const [products, setProducts] = useState(goods);
@@ -172,6 +181,11 @@ const App = () => {
     useEffect(() => {
         localStorage.setItem("wishList", JSON.stringify(wishList));
     }, [wishList]);
+    //theme
+    useEffect(() => {
+        localStorage.setItem("DarkTheme", JSON.stringify(darkTheme));
+    }, [darkTheme]);
+    
     //title
     // useEffect(() => {
     //     document.title = currentTitle;
@@ -227,6 +241,12 @@ const App = () => {
         );
     };
 
+    const theme = createTheme({
+        palette: {
+          mode: darkTheme ? "dark" : "light",
+        },
+    });
+
     const retMainPages = () => {
 
         //let pages = 2;
@@ -265,6 +285,7 @@ const App = () => {
         );
     }
 
+
     const helmetContext = {};
     return (
         <HelmetProvider context={helmetContext}>
@@ -287,8 +308,12 @@ const App = () => {
                 <meta property="og:image" content="logotype.png" />
                 <meta property="og:type" content="website" />
             </Helmet>
+            <ThemeProvider theme={theme}>
+            <CssBaseline />
             <Box sx={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                 <Header
+                    checked={darkTheme}
+                    setTheme={setCurrentTheme}
                     handleCart={() => setCartOpen(true)}
                     orderLen={productsInOrder}
                     handleWish={() => setWishListOpen(true)}
@@ -329,7 +354,7 @@ const App = () => {
                                     <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts} />
                                     <GoodsList goods={products.slice(0 * ItemsPerPage, (0 * ItemsPerPage + ItemsPerPage))}
                                         setWishList={addToWishList} wishList={wishList} />
-                                    <Mypagination allpages={Math.ceil(goods.length / ItemsPerPage)} page={1} />
+                                    <Mypagination allpages={Math.ceil(products.length / ItemsPerPage)} page={1} />
                                 </>
                             } />
                             {retMainPages()}
@@ -341,7 +366,7 @@ const App = () => {
 
                             {goods.map((item) => (
                                 <Route key={item.id} exact path={'/' + item.id} element={
-                                    <Item item={item} setOrder={addToOrder}
+                                    <Item darkTheme={darkTheme} item={item} setOrder={addToOrder}
                                         setWishList={addToWishList} wishList={wishList} />} />
                             ))}
                             <Route exact path='/order' element={<MyOrder order={order} />} />
@@ -360,6 +385,7 @@ const App = () => {
 
                 </Container>
                 <Basket
+                    darkTheme={darkTheme}
                     order={order}
                     removeFromOrder={removeFromOrder}
                     cartOpen={isCartOpen}
@@ -367,6 +393,7 @@ const App = () => {
                     addToOrder={addToOrder}
                     deleteFromOrder={deleteFromOrder} />
                 <Wishlist
+                    darkTheme={darkTheme}
                     wishList={wishList}
                     removeFromWishList={removeFromWishList}
                     wishOpen={isWishListOpen}
@@ -379,6 +406,7 @@ const App = () => {
                 />
                 <Footer />
             </Box>
+            </ThemeProvider>
         </HelmetProvider>
     );
 

@@ -1,5 +1,5 @@
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
-import { Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
+import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -16,17 +16,22 @@ const getText = (navigate, name, id, firstPrice, currentPrice) => {
                 >
                     {name}
                 </Typography>
-                <Typography variant="body1" component="s" //caption
-                    //fontWeight={"bold"}
-                    sx={{
-                        textDecorationColor: 'red',
-                        //paddingTop: 0,
-                        //paddingBottom: '0rem',
-                    }}> {firstPrice} ₴</Typography>
 
-                <Typography variant="h6"
-                    fontWeight={"bold"}
-                > {currentPrice} ₴</Typography>
+
+                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                    <Typography variant="h6"
+                        fontWeight={"bold"}
+                    > {currentPrice} ₴</Typography>
+
+                    <Typography variant="body1" component="s" //caption
+                        //fontWeight={"bold"}
+                        sx={{
+                            textDecorationColor: 'red',
+                            marginLeft: '0.4rem'
+                            //paddingTop: 0,
+                            //paddingBottom: '0rem',
+                        }}> {firstPrice} ₴</Typography>
+                </Box>
             </>
         )
     } else {
@@ -35,6 +40,7 @@ const getText = (navigate, name, id, firstPrice, currentPrice) => {
                 <Typography
                     variant="body1"
                     component="h2"
+                    noWrap
                     onClick={() => { navigate("/" + id); window.scrollTo(0, 0) }}
                     sx={{ color: 'inherit', textDecoration: 'none', cursor: 'pointer' }}
                 >

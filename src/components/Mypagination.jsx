@@ -1,6 +1,6 @@
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Box, IconButton } from "@mui/material";
+import { Box, IconButton, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -79,66 +79,79 @@ const Mypagination = (props) => {
         }
     }
 
-    return (
-        <>
-            {/* <Stack spacing={2} sx={{
-                alignItems: 'center', marginTop: { xs: '2rem', md: '3rem' },
-                marginBottom: { xs: '3rem', md: '4rem' }
+    if (custompagination.length > 1) {
+        return (
+            <>
+                {/* <Stack spacing={2} sx={{
+                    alignItems: 'center', marginTop: { xs: '2rem', md: '3rem' },
+                    marginBottom: { xs: '3rem', md: '4rem' }
+                }}>
+                    <Pagination count={allpages} color="secondary"
+                        onChange={handlePageChange}
+    
+                        defaultPage={currentPage}
+                    >
+    
+                    </Pagination>
+    
+                </Stack> */}
+                <Box sx={{
+                    display: 'flex',
+                    flexDirection: 'row', //justifyContent: 'space-between',
+                    //width: '100%', //height: 'auto',
+                    position: 'relative',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    marginTop: { xs: '2rem', md: '3rem' },
+                    marginBottom: { xs: '3rem', md: '4rem' },
+    
+                }}>
+                    <IconButton
+                        sx={{ color: currentPage === 1 ? "#a5a5a5" : "inherit" }}
+                        onClick={() => {
+                            if (currentPage > 2) {
+                                setCurrentPage(currentPage - 1);
+                                navigate('/' + (value ? value + "/" : '') + 'page' + (currentPage - 1));
+                                window.scrollTo(0, 0);
+                            } else if (currentPage === 2) {
+                                setCurrentPage(currentPage - 1);
+                                navigate('/');
+                                window.scrollTo(0, 0);
+                            }
+                        }}
+                    >
+                        <ArrowBackIosIcon />
+                    </IconButton>
+    
+                    {custompagination}
+    
+                    <IconButton
+                        sx={{ color: currentPage === allpages ? "#a5a5a5" : "inherit" }}
+                        onClick={() => {
+                            if (currentPage < allpages) {
+                                setCurrentPage(currentPage + 1);
+                                navigate('/' + (value ? value + "/" : '') + 'page' + (currentPage + 1));
+                                window.scrollTo(0, 0);
+                            }
+                        }}
+                    >
+                        <ArrowForwardIosIcon />
+                    </IconButton>
+                </Box>
+            </>
+        );
+    }
+    else {
+        return (
+            <Typography component="h2" variant="h5" sx={{
+                marginBottom: '2rem',
+                marginTop: '2rem',
+                fontWeight: 420,
             }}>
-                <Pagination count={allpages} color="secondary"
-                    onChange={handlePageChange}
-
-                    defaultPage={currentPage}
-                >
-
-                </Pagination>
-
-            </Stack> */}
-            <Box sx={{
-                display: 'flex',
-                flexDirection: 'row', //justifyContent: 'space-between',
-                //width: '100%', //height: 'auto',
-                position: 'relative',
-                justifyContent: 'center',
-                alignItems: 'center',
-                marginTop: { xs: '2rem', md: '3rem' },
-                marginBottom: { xs: '3rem', md: '4rem' },
-
-            }}>
-                <IconButton
-                    sx={{ color: currentPage === 1 ? "#a5a5a5" : "inherit" }}
-                    onClick={() => {
-                        if (currentPage > 2) {
-                            setCurrentPage(currentPage - 1);
-                            navigate('/' + (value ? value + "/" : '') + 'page' + (currentPage - 1));
-                            window.scrollTo(0, 0);
-                        } else if (currentPage === 2) {
-                            setCurrentPage(currentPage - 1);
-                            navigate('/');
-                            window.scrollTo(0, 0);
-                        }
-                    }}
-                >
-                    <ArrowBackIosIcon />
-                </IconButton>
-
-                {custompagination}
-
-                <IconButton
-                    sx={{ color: currentPage === allpages ? "#a5a5a5" : "inherit" }}
-                    onClick={() => {
-                        if (currentPage < allpages) {
-                            setCurrentPage(currentPage + 1);
-                            navigate('/' + (value ? value + "/" : '') + 'page' + (currentPage + 1));
-                            window.scrollTo(0, 0);
-                        }
-                    }}
-                >
-                    <ArrowForwardIosIcon />
-                </IconButton>
-            </Box>
-        </>
-    );
+                Це все, що ми змогли знайти для вас.
+            </Typography>
+        )
+    }
 };
 
 export default Mypagination;

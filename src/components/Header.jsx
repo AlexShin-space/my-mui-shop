@@ -1,9 +1,15 @@
 import InstagramIcon from '@mui/icons-material/Instagram';
 import LocalMallRoundedIcon from '@mui/icons-material/LocalMallRounded';
 import FavoriteRoundedIcon from '@mui/icons-material/FavoriteRounded';
-import { AppBar, Badge, IconButton, Toolbar, Typography } from "@mui/material";
+import { AppBar, Badge, IconButton, Switch, Toolbar, Typography } from "@mui/material";
 
-function Header({ handleCart, orderLen, handleWish, wishLen }) {
+function Header({ checked, setTheme, handleCart, orderLen, handleWish, wishLen }) {
+
+
+    const handleChange = (event) => {
+        setTheme(event.target.checked)
+    };
+
     return (
         <AppBar position='static' sx={{ backgroundColor: "darkmagenta" }}>
             <Toolbar>
@@ -29,6 +35,8 @@ function Header({ handleCart, orderLen, handleWish, wishLen }) {
                     Wear & Enjoy
                 </Typography>
 
+                <Switch checked={checked} color="default" onChange={handleChange}/>
+                
                 <IconButton
                     color="inherit"
                     href="https://instagram.com/wear_and_enjoy_it?igshid=ZDdkNTZiNTM="

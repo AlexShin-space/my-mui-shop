@@ -54,7 +54,7 @@ const BasketItem = ({ addToOrder, deleteFromOrder, poster, removeFromOrder, id, 
                         color: color,
                         size: size
                     })}>
-                        <ControlPointIcon />
+                        <ControlPointIcon/>
                     </IconButton>
                 </Grid>
 
