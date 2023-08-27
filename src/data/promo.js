@@ -1,0 +1,1 @@
+export const promocodes = {'1234':40, '0000':3};

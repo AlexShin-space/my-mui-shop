@@ -5,12 +5,11 @@ import React from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { goods } from '../data/goods';
+import { getName } from './texts';
 
 
 const Filter = (props) => {
-    const { alignment, setAlignment, setProducts,
-        //filterType = Function.prototype 
-    } = props;
+    const { lang, alignment, setAlignment, setProducts} = props;
     const navigate = useNavigate();
 
     const handleAlignment = (event, newAlignment) => {
@@ -31,7 +30,8 @@ const Filter = (props) => {
 
     const myMargin = '8%';
 
-    const giveFilter = (element, elementEng) => {
+    const giveFilter = (elementEng) => {
+        let element = getName(elementEng, lang)
         return (
             <Typography
                 variant="subtitle1" //выглядит как h6
@@ -72,7 +72,7 @@ const Filter = (props) => {
                     border: 'InactiveBorder',
                     marginRight: myMargin
                 }}>
-                {giveFilter("Худі", "hoodies")}
+                {giveFilter("hoodies")}
             </ToggleButton>
 
             <ToggleButton value="T-shirts"
@@ -82,7 +82,7 @@ const Filter = (props) => {
                     border: 'InactiveBorder',
                     marginRight: myMargin
                 }}>
-                {giveFilter("Футболки", "T-shirts")}
+                {giveFilter("T-shirts")}
             </ToggleButton>
 
             <ToggleButton value="suits"
@@ -91,7 +91,7 @@ const Filter = (props) => {
                     border: 'InactiveBorder',
                     marginRight: myMargin
                 }}>
-                {giveFilter("Костюми", "suits")}
+                {giveFilter("suits")}
             </ToggleButton>
 
             <ToggleButton value="trousers"
@@ -99,7 +99,7 @@ const Filter = (props) => {
                 sx={{
                     border: 'InactiveBorder',
                 }}>
-                {giveFilter("Штани", "trousers")}
+                {giveFilter("trousers")}
             </ToggleButton>
 
         </ToggleButtonGroup>

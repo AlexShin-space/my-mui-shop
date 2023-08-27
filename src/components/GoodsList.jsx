@@ -8,12 +8,10 @@ const GoodsList = (props) => {
 
     return (
         <Grid container spacing={9}>
-            {goods.map((item) => {
-                return(
-                    <GoodsItem key={item.id} id={item.id} setWishList={setWishList} 
-                        wishList={wishList} {...item}/>
-                )
-            })}
+            {goods.map((item) => (
+                <GoodsItem key={item.id} id={item.id} setWishList={setWishList} 
+                    wishList={wishList} {...item}/>
+            ))}
         </Grid>
     );
 };

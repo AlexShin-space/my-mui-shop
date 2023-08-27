@@ -1,8 +1,9 @@
 import CloseIcon from '@mui/icons-material/Close';
 import LocalMallRoundedIcon from '@mui/icons-material/LocalMallRounded';
-import { Button, Container, Divider, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Modal, TextField, Typography } from '@mui/material';
-import React, { useState } from 'react';
+import { Box, Button, Container, Divider, Grid, IconButton, List, ListItem, ListItemIcon, ListItemText, Modal, TextField, Typography } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import BasketItem from './BasketItem';
+import { promocodes } from '../data/promo';
 
 export const Basket = (props) => {
     const {
@@ -14,7 +15,59 @@ export const Basket = (props) => {
         order = [],
         removeFromOrder
     } = props;
-    const [promokode, setPromokode] = useState('');
+
+
+    const getPromocode = () => {
+        let promocode = localStorage.getItem("promocode");
+        if (promocode === null) {
+            return "";
+        } else {
+            return JSON.parse(promocode);
+        }
+    }
+
+    const [promocode, setPromocode] = useState(getPromocode);
+
+    const getDiscount = () => {
+        if (promocode !== "") {
+            for (const [promo, discount] of Object.entries(promocodes)) {
+                if (promocode === promo) {
+                    return discount/100;
+                }
+            }
+        }
+        return 0;
+    }
+
+    const [finalPriceComponent, setFinalPriceComp] = useState(promocode === "" ? 'p' : 's');
+    const [discount, setDiscount] = useState(getDiscount());
+    const sumWithoutDisc = order.reduce((acc, item) => {
+        return acc + item.price * item.quantity;
+    }, 0);
+    const [sumWithDisc, setSumWithDiscount] = useState(parseInt(sumWithoutDisc * (1-discount), 10));
+    const [promtext, setPromtext] = useState(promocode === "" ? 'Promo code' : 'Successfull');
+
+
+    useEffect(() => {
+        localStorage.setItem("promocode", JSON.stringify(promocode));
+        setSumWithDiscount(parseInt(sumWithoutDisc * (1-discount), 10));
+    }, [promocode, sumWithoutDisc, discount]);
+    
+    const checkPromo = (promo) => {
+        setPromocode(promo);
+        for (const [promocode, discnt] of Object.entries(promocodes)) {
+            if (promo === promocode) {
+                setFinalPriceComp("s")
+                setDiscount(discnt/100);
+                setPromtext('Successfull');
+                //setSumWithDiscount(parseInt(sumWithoutDisc * (1-discnt/100), 10));
+                return;
+            }
+        }
+        setPromtext('Promo code');
+        setFinalPriceComp("p");
+        
+    }
 
     return (
         <Modal
@@ -23,18 +76,13 @@ export const Basket = (props) => {
             onClose={closeCart}
             sx={{
                 //maxHeight: '50%',
-
                 display: 'flex',
                 justifyContent: 'center',
                 //margin: '250px 0'
                 position: 'absolute', top: '20%',// transform: 'translate(-50%, -50%)', 
-
             }}
-
         >
             <Container sx={{
-                //backgroundColor: 'black',
-                //height: 'auto',
                 maxHeight: '80%',
                 //minWidth: '25%',
                 width: 'auto', backdropFilter: 'blur(12px)',
@@ -75,24 +123,43 @@ export const Basket = (props) => {
                                     alignItems: 'center',
                                 }}>
                                     <Grid item xs={8}>
+                                    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                                         <Typography sx={{ fontWeight: 700 }}>
-                                            Загальна вартість:{' '}
-                                            {order.reduce((acc, item) => {
-                                                return acc + item.price * item.quantity;
-                                            }, 0)}{' '}
-                                            ₴
+                                            Загальна вартість:
                                         </Typography>
+                
+                                        <Typography variant="body1" component={finalPriceComponent} //caption
+                                            sx={{
+                                                fontWeight: 'bold',
+                                                textDecorationColor: 'red',
+                                                marginLeft: '0.5rem',
+                                                marginRight: '0.5rem',
+                                            }}> 
+                                            {sumWithoutDisc}
+                                            {finalPriceComponent !== "s" ? " ₴" : null}
+                                            </Typography>
+
+                                        {finalPriceComponent === "s" ? (
+                                            <><Typography variant="body1" component="p" 
+                                                sx={{ color: 'green', marginRight: '0.5rem', fontWeight: "bold" }}>
+                                                    -{discount * 100}% (-{sumWithoutDisc-sumWithDisc}):
+                                                </Typography>
+                                                
+                                                <Typography variant="body1" component="p" sx={{fontWeight: "bold"}}>
+                                                    {sumWithDisc} ₴ </Typography></>) : null}
+                                    </Box>
+                                                              
                                     </Grid>
                                     <Grid item xs={4}>
                                         <TextField
-                                            //sx={{ width: '100%' }}
+                                            //error
                                             variant="standard"
                                             size="small"
-                                            sx={{ marginRight: 0, }}
+                                            sx={{ marginRight: 0}}
                                             id="outlined-number"
-                                            label="Промокод"
+                                            label={promtext}
                                             type="text"
-                                            value={promokode} onChange={e => setPromokode(e.target.value)}
+                                            value={promocode} onChange={e => checkPromo(e.target.value)}
                                         />
                                     </Grid>
                                 </Grid>
@@ -110,7 +177,6 @@ export const Basket = (props) => {
                                 }}
                                     variant="contained"
                                     href="/order"
-                                //onClick={() => navigate("/order")}
                                 >
                                     Замовити
                                 </Button>

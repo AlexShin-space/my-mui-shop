@@ -2,7 +2,7 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
-import { Box, Container, CssBaseline, ThemeProvider, Typography, createTheme } from '@mui/material';
+import { Box, Container, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
@@ -20,6 +20,8 @@ import MyOrder from './OrderPage';
 import Search from './Search';
 import Snack from './Snack';
 import Wishlist from './Wishlist';
+import { titleForFilterPage, descriprionForFilterPage, 
+    titleForPaginationPages, descriptionForPaginationPages, welcomeText, page404text, getName } from './texts';
 
 const App = () => {
     const getLocalCartData = (value) => {
@@ -45,6 +47,14 @@ const App = () => {
             return JSON.parse(darkTheme);
         }
     }
+    const getLanguage = () => {
+        let lang = localStorage.getItem("language");
+        if (lang === null) {
+            return 'uk';
+        } else {
+            return JSON.parse(lang);
+        }
+    }
     //SEO
     //const [currentTitle, setCurrentTitle] = useState("Yees")
 
@@ -63,6 +73,7 @@ const App = () => {
 
     const [alignment, setAlignment] = useState();
     const [productsInOrder, setProductsInOrder] = useState(getCountOfProducts());
+    const [language, setLanguage] = useState(getLanguage());
 
     const handleChange = (e) => {
         if (!e.target.value) {
@@ -148,11 +159,9 @@ const App = () => {
 
     //add to wishList
     const addToWishList = (goodsItem) => {
-
         const indexInwishList = wishList.findIndex(
             (item) => item.id === goodsItem.id
         );
-
         if (indexInwishList > -1) {
             setSnackOpen('Видалено з обраного');
             removeFromWishList(goodsItem.id)
@@ -185,6 +194,10 @@ const App = () => {
     useEffect(() => {
         localStorage.setItem("DarkTheme", JSON.stringify(darkTheme));
     }, [darkTheme]);
+    //language
+    useEffect(() => {
+        localStorage.setItem("language", JSON.stringify(language));
+    }, [language]);
     
     //title
     // useEffect(() => {
@@ -201,44 +214,43 @@ const App = () => {
     }
 
 
-    const RetFilterPage = (value) => {
-
-        let arr = goods.filter((good) => good.category.includes(value));
-
-        const numbers = new Array(Math.ceil(arr.length / ItemsPerPage));
-        for (let i = 0; i < Math.ceil(arr.length / ItemsPerPage); i++) {
-            numbers[i] = i;
-        }
-        let UAvalue = (value === 'hoodies' ? "Худі" : value === "T-shirts" ?
-            "Футболки" : value === "suits" ? 'Костюми' : value === "trousers" ? 'Штани' : '');
+    const RetFilterPages = (values) => {
         return (
-            numbers.map((i) => (
-                <Route key={i} exact path={'/' + value + '/page' + (i + 1)} element={
-                    <>
-                        <Helmet>
-                            <title >
-                                {"Купити " + UAvalue + " для жінок та чоловіків " +
-                                    "- висока якість і низькі ціни з доставкою в Київ та по Україні в " +
-                                    "інтернет магазині Wear and Enjoy it - сторінка " + (i + 1)}
-                            </title>
-                            <meta name="description" content={"20% заробітку йде на благодійність! " +
-                                "Гарантія повернення, накладений платіж, купити якісні " + UAvalue + " недорого. " +
-                                "Спробуйте! Магазин чоловічого та жіночого одягу. - сторінка " + (i + 1)} />
-                            <link rel="canonical" href={'/' + value + '/page' + (i + 1)} />
-                        </Helmet>
-                        <h1>{(value === 'hoodies' ? "Худі" : value === "T-shirts" ? "Футболки" : value === "suits" ?
-                            'Костюми' : value === "trousers" ? 'Штани' : '')}</h1>
-                        <Filter alignment={value} setAlignment={setAlignment} setProducts={setProducts} />
-                        <GoodsList goods={
-                            arr.slice(i * ItemsPerPage, (i * ItemsPerPage + ItemsPerPage))
-                        }
-                            setWishList={addToWishList} wishList={wishList} />
+            values.map((value) => {
 
-                        <Mypagination page={i + 1} value={value} allpages={Math.ceil(arr.length / ItemsPerPage)} />
-                    </>
-                } />
-            ))
-        );
+                let arr = goods.filter((good) => good.category.includes(value));
+
+                let numbers = new Array(Math.ceil(arr.length / ItemsPerPage));
+                for (let i = 0; i < Math.ceil(arr.length / ItemsPerPage); i++) {
+                    numbers[i] = i;
+                }
+
+                let name = getName(value, language)
+                return (
+                    numbers.map((i) => (
+                        <Route key={i} exact path={'/' + value + '/page' + (i + 1)} element={
+                            <>
+                                <Helmet>
+                                    <title >
+                                        {titleForFilterPage(language, name, i+1)}
+                                    </title>
+                                    <meta name="description" content={descriprionForFilterPage(language, name, i+1)} />
+                                    <link rel="canonical" href={'/' + value + '/page' + (i + 1)} />
+                                </Helmet>
+                                <h1>{name}</h1>
+                                <Filter alignment={value} setAlignment={setAlignment} setProducts={setProducts} lang={language} />
+                                <GoodsList goods={
+                                    arr.slice(i * ItemsPerPage, (i * ItemsPerPage + ItemsPerPage))
+                                }
+                                    setWishList={addToWishList} wishList={wishList} />
+
+                                <Mypagination page={i + 1} value={value} allpages={Math.ceil(arr.length / ItemsPerPage)} />
+                            </>
+                        } />
+                    ))
+                )
+            })
+        )
     };
 
     const theme = createTheme({
@@ -248,8 +260,6 @@ const App = () => {
     });
 
     const retMainPages = () => {
-
-        //let pages = 2;
         const numbers = new Array(Math.ceil(goods.length / ItemsPerPage));
         for (let i = 1; i < Math.ceil(goods.length / ItemsPerPage); i++) {
             numbers[i] = i;
@@ -260,19 +270,14 @@ const App = () => {
                     <>
                         <Helmet>
                             <title>
-                                {"Купити чоловічий та жіночий одяг - висока якість і " +
-                                    "низькі ціни з доставкою в Київ та по Україні в " +
-                                    "інтернет магазині Wear and Enjoy it - сторінка " + (i + 1)}
+                                {titleForPaginationPages(language, i+1)}
                             </title>
-                            <meta name="description" content={"Гарантія повернення, накладений платіж, " +
-                                "швидка доставка. Спробуйте! Доступні ціни, недорого. " +
-                                "Купити cтильний та якісний одяг для чоловіків та жінок в магазині одягу. " +
-                                "- сторінка " + (i + 1)} />
+                            <meta name="description" content={descriptionForPaginationPages(language, i+1)} />
                             <link rel="canonical" href={'/page' + (i + 1)} />
                         </Helmet>
 
-                        <Search value={search} onChange={handleChange} />
-                        <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts} />
+                        <Search value={search} onChange={handleChange} lang={language}/>
+                        <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts} lang={language}/>
                         <GoodsList goods={
                             goods.slice(i * ItemsPerPage, (i * ItemsPerPage + ItemsPerPage))
                         }
@@ -291,13 +296,9 @@ const App = () => {
         <HelmetProvider context={helmetContext}>
             <Helmet>
                 <title>
-                    Купити чоловічий та жіночий одяг - висока якість і
-                    низькі ціни з доставкою в Київ та по Україні в
-                    інтернет магазині Wear and Enjoy it
+                    {titleForPaginationPages(language)}
                 </title>
-                <meta name="description" content="Гарантія повернення, накладений платіж, 
-                    швидка доставка. Спробуйте! Доступні ціни, недорого. 
-                    Купити cтильний та якісний одяг для чоловіків та жінок в магазині одягу." />
+                <meta name="description" content={descriptionForPaginationPages(language)} />
                 <link rel="canonical" href="/" />
 
                 <meta property="og:title" content="Стильний одяг. Насолоджуйся!" />
@@ -312,6 +313,8 @@ const App = () => {
             <CssBaseline />
             <Box sx={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
                 <Header
+                    lang={language}
+                    setLang={setLanguage}
                     checked={darkTheme}
                     setTheme={setCurrentTheme}
                     handleCart={() => setCartOpen(true)}
@@ -329,46 +332,45 @@ const App = () => {
                         <Routes>
                             <Route exact path='/' element={
                                 <>
+                                    {welcomeText('uk')}
 
-                                    <Typography component="p" variant="h5" style={{ fontWeight: 500, marginBottom: '0.2rem' }}>
-                                        Вітаємо в нашому інтернет магазині😄
-                                    </Typography>
+                                    <Search value={search} onChange={handleChange} lang={'uk'}/>
+                                    <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts}  lang={'uk'}/>
+                                    <GoodsList goods={products.slice(0 * ItemsPerPage, (0 * ItemsPerPage + ItemsPerPage))}
+                                        setWishList={addToWishList} wishList={wishList} />
+                                    <Mypagination allpages={Math.ceil(products.length / ItemsPerPage)} page={1} />
+                                </>
+                            } />
+                            <Route exact path='/ru' element={
+                                <>
+                                    {welcomeText('ru')}
 
-                                    <Typography component="h1" >
-                                        Тут зможете купити якісний одяг, зокрема
-                                        {" "}<a style={{ color: 'green', textDecoration: 'none', }} href="/hoodies/page1">
-                                            худі</a>
-                                        {", "}<a style={{ color: 'green', textDecoration: 'none', }} href="/T-shirts/page1">
-                                            футболки</a>
-                                        {", "}<a style={{ color: 'green', textDecoration: 'none', }} href="/suits/page1">
-                                            костюми</a>
-                                        {", "}<a style={{ color: 'green', textDecoration: 'none', }} href="/trousers/page1">
-                                            штани</a>.
-                                    </Typography>
-                                    <Box sx={{ marginBottom: '0.5rem' }}>
-                                        Детальніше на ст.
-                                        {" "}<a href="/about-as" style={{ color: 'green', fontWeight: 600, textDecoration: 'none' }}>про нас</a>
-                                    </Box>
-
-                                    <Search value={search} onChange={handleChange} />
-                                    <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts} />
+                                    <Search value={search} onChange={handleChange} lang={'ru'}/>
+                                    <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts}  lang={'ru'}/>
                                     <GoodsList goods={products.slice(0 * ItemsPerPage, (0 * ItemsPerPage + ItemsPerPage))}
                                         setWishList={addToWishList} wishList={wishList} />
                                     <Mypagination allpages={Math.ceil(products.length / ItemsPerPage)} page={1} />
                                 </>
                             } />
                             {retMainPages()}
+                            {RetFilterPages(['hoodies', 'T-shirts', 'suits', 'trousers'])}
+                            {/* {RetFilterPage('hoodies')} */}
+                            {/* {['hoodies', 'T-shirts', 'suits', 'trousers'].map(value => RetFilterPage(value))} */}
 
-                            {RetFilterPage('hoodies')}
-                            {RetFilterPage('T-shirts')}
-                            {RetFilterPage('suits')}
-                            {RetFilterPage('trousers')}
-
+                            {/* ua item's pages */}
                             {goods.map((item) => (
                                 <Route key={item.id} exact path={'/' + item.id} element={
                                     <Item darkTheme={darkTheme} item={item} setOrder={addToOrder}
                                         setWishList={addToWishList} wishList={wishList} />} />
                             ))}
+
+                            {/* ru item's pages */}
+                            {/* {goods.map((item) => (
+                                <Route key={item.id} exact path={'/ru/' + item.id} element={
+                                    <Item darkTheme={darkTheme} item={item} setOrder={addToOrder}
+                                        setWishList={addToWishList} wishList={wishList} />} />
+                            ))} */}
+
                             <Route exact path='/order' element={<MyOrder order={order} />} />
 
                             <Route exact path='/about-as' element={<AboutAS />} />
@@ -376,14 +378,14 @@ const App = () => {
                             {/* default page 404 */}
                             <Route exact path='*' element={
                                 <>
-                                    <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts} />
-                                    <h1>Не можу знайти цю сторінку :((</h1>
+                                    <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts}  lang={language}/>
+                                    {page404text(language)}
                                 </>
                             } />
                         </Routes>
                     </BrowserRouter>
-
                 </Container>
+                
                 <Basket
                     darkTheme={darkTheme}
                     order={order}
