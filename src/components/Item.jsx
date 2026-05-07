@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
 
 import FavoriteBorderRoundedIcon from '@mui/icons-material/FavoriteBorderRounded';
-import { EffectCoverflow, Navigation } from 'swiper';
+import 'swiper/css'
+import 'swiper/css/effect-coverflow'
+import 'swiper/css/navigation'
+import { EffectCoverflow, Navigation } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 ///import 'swiper/swiper-bundle.min.css' //!!!!
 import { Box, Button, Grid, Modal, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';

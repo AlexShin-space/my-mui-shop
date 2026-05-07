@@ -1,7 +1,3 @@
-import '@fontsource/roboto/300.css';
-import '@fontsource/roboto/400.css';
-import '@fontsource/roboto/500.css';
-import '@fontsource/roboto/700.css';
 import { Box, Container, CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
@@ -20,8 +16,15 @@ import MyOrder from './OrderPage';
 import Search from './Search';
 import Snack from './Snack';
 import Wishlist from './Wishlist';
-import { titleForFilterPage, descriprionForFilterPage, 
-    titleForPaginationPages, descriptionForPaginationPages, welcomeText, page404text, getName } from './texts';
+import {
+    descriprionForFilterPage,
+    descriptionForPaginationPages,
+    getName,
+    page404text,
+    titleForFilterPage,
+    titleForPaginationPages,
+    welcomeText
+} from './texts';
 
 const App = () => {
     const getLocalCartData = (value) => {
@@ -198,7 +201,7 @@ const App = () => {
     useEffect(() => {
         localStorage.setItem("language", JSON.stringify(language));
     }, [language]);
-    
+
     //title
     // useEffect(() => {
     //     document.title = currentTitle;
@@ -232,9 +235,9 @@ const App = () => {
                             <>
                                 <Helmet>
                                     <title >
-                                        {titleForFilterPage(language, name, i+1)}
+                                        {titleForFilterPage(language, name, i + 1)}
                                     </title>
-                                    <meta name="description" content={descriprionForFilterPage(language, name, i+1)} />
+                                    <meta name="description" content={descriprionForFilterPage(language, name, i + 1)} />
                                     <link rel="canonical" href={'/' + value + '/page' + (i + 1)} />
                                 </Helmet>
                                 <h1>{name}</h1>
@@ -255,7 +258,7 @@ const App = () => {
 
     const theme = createTheme({
         palette: {
-          mode: darkTheme ? "dark" : "light",
+            mode: darkTheme ? "dark" : "light",
         },
     });
 
@@ -270,14 +273,14 @@ const App = () => {
                     <>
                         <Helmet>
                             <title>
-                                {titleForPaginationPages(language, i+1)}
+                                {titleForPaginationPages(language, i + 1)}
                             </title>
-                            <meta name="description" content={descriptionForPaginationPages(language, i+1)} />
+                            <meta name="description" content={descriptionForPaginationPages(language, i + 1)} />
                             <link rel="canonical" href={'/page' + (i + 1)} />
                         </Helmet>
 
-                        <Search value={search} onChange={handleChange} lang={language}/>
-                        <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts} lang={language}/>
+                        <Search value={search} onChange={handleChange} lang={language} />
+                        <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts} lang={language} />
                         <GoodsList goods={
                             goods.slice(i * ItemsPerPage, (i * ItemsPerPage + ItemsPerPage))
                         }
@@ -310,104 +313,104 @@ const App = () => {
                 <meta property="og:type" content="website" />
             </Helmet>
             <ThemeProvider theme={theme}>
-            <CssBaseline />
-            <Box sx={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-                <Header
-                    lang={language}
-                    setLang={setLanguage}
-                    checked={darkTheme}
-                    setTheme={setCurrentTheme}
-                    handleCart={() => setCartOpen(true)}
-                    orderLen={productsInOrder}
-                    handleWish={() => setWishListOpen(true)}
-                    wishLen={wishList.length}
-                />
-                <Container
-                    sx={{
-                        mt: '1rem',
-                        //backgroundColor: 'rgba(255, 235, 59, 0.12)'
-                    }}
-                >
-                    <BrowserRouter>
-                        <Routes>
-                            <Route exact path='/' element={
-                                <>
-                                    {welcomeText('uk')}
+                <CssBaseline />
+                <Box sx={{ overflow: 'hidden', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+                    <Header
+                        lang={language}
+                        setLang={setLanguage}
+                        checked={darkTheme}
+                        setTheme={setCurrentTheme}
+                        handleCart={() => setCartOpen(true)}
+                        orderLen={productsInOrder}
+                        handleWish={() => setWishListOpen(true)}
+                        wishLen={wishList.length}
+                    />
+                    <Container
+                        sx={{
+                            mt: '1rem',
+                            //backgroundColor: 'rgba(255, 235, 59, 0.12)'
+                        }}
+                    >
+                        <BrowserRouter>
+                            <Routes>
+                                <Route exact path='/' element={
+                                    <>
+                                        {welcomeText('uk')}
 
-                                    <Search value={search} onChange={handleChange} lang={'uk'}/>
-                                    <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts}  lang={'uk'}/>
-                                    <GoodsList goods={products.slice(0 * ItemsPerPage, (0 * ItemsPerPage + ItemsPerPage))}
-                                        setWishList={addToWishList} wishList={wishList} />
-                                    <Mypagination allpages={Math.ceil(products.length / ItemsPerPage)} page={1} />
-                                </>
-                            } />
-                            <Route exact path='/ru' element={
-                                <>
-                                    {welcomeText('ru')}
+                                        <Search value={search} onChange={handleChange} lang={'uk'} />
+                                        <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts} lang={'uk'} />
+                                        <GoodsList goods={products.slice(0 * ItemsPerPage, (0 * ItemsPerPage + ItemsPerPage))}
+                                            setWishList={addToWishList} wishList={wishList} />
+                                        <Mypagination allpages={Math.ceil(products.length / ItemsPerPage)} page={1} />
+                                    </>
+                                } />
+                                <Route exact path='/ru' element={
+                                    <>
+                                        {welcomeText('ru')}
 
-                                    <Search value={search} onChange={handleChange} lang={'ru'}/>
-                                    <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts}  lang={'ru'}/>
-                                    <GoodsList goods={products.slice(0 * ItemsPerPage, (0 * ItemsPerPage + ItemsPerPage))}
-                                        setWishList={addToWishList} wishList={wishList} />
-                                    <Mypagination allpages={Math.ceil(products.length / ItemsPerPage)} page={1} />
-                                </>
-                            } />
-                            {retMainPages()}
-                            {RetFilterPages(['hoodies', 'T-shirts', 'suits', 'trousers'])}
-                            {/* {RetFilterPage('hoodies')} */}
-                            {/* {['hoodies', 'T-shirts', 'suits', 'trousers'].map(value => RetFilterPage(value))} */}
+                                        <Search value={search} onChange={handleChange} lang={'ru'} />
+                                        <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts} lang={'ru'} />
+                                        <GoodsList goods={products.slice(0 * ItemsPerPage, (0 * ItemsPerPage + ItemsPerPage))}
+                                            setWishList={addToWishList} wishList={wishList} />
+                                        <Mypagination allpages={Math.ceil(products.length / ItemsPerPage)} page={1} />
+                                    </>
+                                } />
+                                {retMainPages()}
+                                {RetFilterPages(['hoodies', 'T-shirts', 'suits', 'trousers'])}
+                                {/* {RetFilterPage('hoodies')} */}
+                                {/* {['hoodies', 'T-shirts', 'suits', 'trousers'].map(value => RetFilterPage(value))} */}
 
-                            {/* ua item's pages */}
-                            {goods.map((item) => (
-                                <Route key={item.id} exact path={'/' + item.id} element={
-                                    <Item darkTheme={darkTheme} item={item} setOrder={addToOrder}
-                                        setWishList={addToWishList} wishList={wishList} />} />
-                            ))}
+                                {/* ua item's pages */}
+                                {goods.map((item) => (
+                                    <Route key={item.id} exact path={'/' + item.id} element={
+                                        <Item darkTheme={darkTheme} item={item} setOrder={addToOrder}
+                                            setWishList={addToWishList} wishList={wishList} />} />
+                                ))}
 
-                            {/* ru item's pages */}
-                            {/* {goods.map((item) => (
+                                {/* ru item's pages */}
+                                {/* {goods.map((item) => (
                                 <Route key={item.id} exact path={'/ru/' + item.id} element={
                                     <Item darkTheme={darkTheme} item={item} setOrder={addToOrder}
                                         setWishList={addToWishList} wishList={wishList} />} />
                             ))} */}
 
-                            <Route exact path='/order' element={<MyOrder order={order} />} />
+                                <Route exact path='/order' element={<MyOrder order={order} />} />
 
-                            <Route exact path='/about-as' element={<AboutAS />} />
+                                <Route exact path='/about-as' element={<AboutAS />} />
 
-                            {/* default page 404 */}
-                            <Route exact path='*' element={
-                                <>
-                                    <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts}  lang={language}/>
-                                    {page404text(language)}
-                                </>
-                            } />
-                        </Routes>
-                    </BrowserRouter>
-                </Container>
-                
-                <Basket
-                    darkTheme={darkTheme}
-                    order={order}
-                    removeFromOrder={removeFromOrder}
-                    cartOpen={isCartOpen}
-                    closeCart={() => setCartOpen(false)}
-                    addToOrder={addToOrder}
-                    deleteFromOrder={deleteFromOrder} />
-                <Wishlist
-                    darkTheme={darkTheme}
-                    wishList={wishList}
-                    removeFromWishList={removeFromWishList}
-                    wishOpen={isWishListOpen}
-                    closeWish={() => setWishListOpen(false)} />
+                                {/* default page 404 */}
+                                <Route exact path='*' element={
+                                    <>
+                                        <Filter alignment={alignment} setAlignment={setAlignment} setProducts={setProducts} lang={language} />
+                                        {page404text(language)}
+                                    </>
+                                } />
+                            </Routes>
+                        </BrowserRouter>
+                    </Container>
 
-                <Snack
-                    //isOpen={isSnackOpen == '' ? false : true}
-                    handleClose={() => setSnackOpen('')}
-                    text={isSnackOpen}
-                />
-                <Footer />
-            </Box>
+                    <Basket
+                        darkTheme={darkTheme}
+                        order={order}
+                        removeFromOrder={removeFromOrder}
+                        cartOpen={isCartOpen}
+                        closeCart={() => setCartOpen(false)}
+                        addToOrder={addToOrder}
+                        deleteFromOrder={deleteFromOrder} />
+                    <Wishlist
+                        darkTheme={darkTheme}
+                        wishList={wishList}
+                        removeFromWishList={removeFromWishList}
+                        wishOpen={isWishListOpen}
+                        closeWish={() => setWishListOpen(false)} />
+
+                    <Snack
+                        //isOpen={isSnackOpen == '' ? false : true}
+                        handleClose={() => setSnackOpen('')}
+                        text={isSnackOpen}
+                    />
+                    <Footer />
+                </Box>
             </ThemeProvider>
         </HelmetProvider>
     );

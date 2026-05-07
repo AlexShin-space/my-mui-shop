@@ -1,6 +1,6 @@
 import ControlPointIcon from '@mui/icons-material/ControlPoint';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import RemoveCircleOutlineIcon from '@mui/icons-material/RemoveCircleOutline';
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { Box, CardMedia, Divider, IconButton, Typography } from "@mui/material";
 import Grid from '@mui/material/Grid';
 
@@ -54,7 +54,7 @@ const BasketItem = ({ addToOrder, deleteFromOrder, poster, removeFromOrder, id, 
                         color: color,
                         size: size
                     })}>
-                        <ControlPointIcon/>
+                        <ControlPointIcon />
                     </IconButton>
                 </Grid>
 
@@ -74,7 +74,7 @@ const BasketItem = ({ addToOrder, deleteFromOrder, poster, removeFromOrder, id, 
                         color: color,
                         size: size
                     })}>
-                        <RemoveCircleOutlineIcon />
+                        <RemoveCircleOutlineOutlinedIcon />
                     </IconButton>
                 </Grid>
 
